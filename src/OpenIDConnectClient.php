@@ -324,7 +324,7 @@ class OpenIDConnectClient
 
             // Do an OpenID Connect session check
 	    if (!isset($_REQUEST['state']) || ($_REQUEST['state'] !== $this->getState())) {
-                throw new OpenIDConnectClientException('Unable to determine state');
+                throw new OpenIDConnectClientException('Unable to determine state - umoidc');
             }
 
             // Cleanup state
@@ -384,7 +384,7 @@ class OpenIDConnectClient
 
             // Do an OpenID Connect session check
     	    if (!isset($_REQUEST['state']) || ($_REQUEST['state'] !== $this->getState())) {
-                throw new OpenIDConnectClientException('Unable to determine state');
+                throw new OpenIDConnectClientException('Unable to determine state - umoidc');
             }
 
             // Cleanup state
@@ -1801,21 +1801,25 @@ class OpenIDConnectClient
     /**
      * Stores nonce
      */
+    // um override with pantheon compatible cookie
     protected function setNonce(string $nonce): string
     {
-        $nonce = $this->nonce;
+         $nonce = $_COOKIE['STYXKEY_oidc_nonce'] ?? null;
         $this->setSessionKey('openid_connect_nonce', $nonce);
         return $nonce;
     }
 
     /**
      * Get stored nonce
-     *
+     * 
      * @return string
      */
+
+    // um override with pantheon compatible cookie
     protected function getNonce() {
-        return $this->nonce;
-        return $this->getSessionKey('openid_connect_nonce');
+        $nonce = $_COOKIE['STYXKEY_oidc_nonce'] ?? null;
+        return $nonce;
+        //return $this->getSessionKey('openid_connect_nonce');
     }
 
     /**
@@ -1830,9 +1834,10 @@ class OpenIDConnectClient
     /**
      * Stores $state
      */
+    // um override with pantheon compatible cookie
     protected function setState(string $state): string
     {
-        $state = $this->state;
+        $state = $_COOKIE['STYXKEY_oidc_state'] ?? null;
         $this->setSessionKey('openid_connect_state', $state);
         return $state;
     }
@@ -1842,9 +1847,11 @@ class OpenIDConnectClient
      *
      * @return string
      */
+    // um override with pantheon compatible cookie
     protected function getState() {
-        return $this->state;
-        return $this->getSessionKey('openid_connect_state');
+        $expectedState = $_COOKIE['STYXKEY_oidc_state'] ?? null;
+        return $expectedState;
+        //return $this->getSessionKey('openid_connect_state');
     }
 
     /**
