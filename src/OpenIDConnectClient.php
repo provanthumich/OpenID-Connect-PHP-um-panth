@@ -1814,6 +1814,7 @@ class OpenIDConnectClient
      * @return string
      */
     protected function getNonce() {
+        return $this->nonce;
         return $this->getSessionKey('openid_connect_nonce');
     }
 
@@ -1842,6 +1843,7 @@ class OpenIDConnectClient
      * @return string
      */
     protected function getState() {
+        return $this->state;
         return $this->getSessionKey('openid_connect_state');
     }
 
