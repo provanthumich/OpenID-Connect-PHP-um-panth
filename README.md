@@ -1,3 +1,7 @@
+Fork created to mitigate the unique difficulties found when using on Pantheon with UM OIDC.
+Solution uses cookies to set state instead of sessions (Pantheon sessions are unreliable for this use case)
+
+
 PHP OpenID Connect Basic Client
 ========================
 A simple library that allows an application to authenticate a user through the basic OpenID Connect flow.
