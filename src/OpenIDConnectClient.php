@@ -76,6 +76,10 @@ class OpenIDConnectClientException extends Exception
 class OpenIDConnectClient
 {
 
+    /** explicit state and nonce overrides */
+    public $state;
+    public $nonce;
+
     /**
      * @var string arbitrary id value
      */
@@ -749,11 +753,11 @@ class OpenIDConnectClient
 
         // Generate and store a nonce in the session
         // The nonce is an arbitrary value
-        $nonce = $this->setNonce($this->generateRandString());
-
+        $nonce = $this->nonce;
+       
         // State essentially acts as a session key for OIDC
-        $state = $this->setState($this->generateRandString());
-
+        $state = $this->state;
+                
         $auth_params = array_merge($this->authParams, [
             'response_type' => $response_type,
             'redirect_uri' => $this->getRedirectURL(),
@@ -1799,6 +1803,7 @@ class OpenIDConnectClient
      */
     protected function setNonce(string $nonce): string
     {
+        $nonce = $this->nonce;
         $this->setSessionKey('openid_connect_nonce', $nonce);
         return $nonce;
     }
@@ -1826,6 +1831,7 @@ class OpenIDConnectClient
      */
     protected function setState(string $state): string
     {
+        $state = $this->state;
         $this->setSessionKey('openid_connect_state', $state);
         return $state;
     }
